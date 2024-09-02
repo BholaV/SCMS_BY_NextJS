@@ -1,0 +1,38 @@
+# Dependency directories
+node_modules/
+
+# Build output
+build/
+dist/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE and editor folders
+.vscode/
+.idea/
+
+# Optional npm cache directory
+.npm/
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Storybook build outputs
+.storybook-out/
+
+# Miscellaneous
+*.suo
+*.user
+*.userosscache
+*.sln.docstates

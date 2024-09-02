@@ -1,0 +1,42 @@
+project-root/
+├── backend/                      # Backend-specific files and directories
+│   ├── src/                      # Source code for the backend
+│   │   ├── controllers/          # Controllers for handling requests
+│   │   ├── models/               # Data models and schemas
+│   │   ├── routes/               # API routes and route handlers
+│   │   ├── services/             # Business logic and services
+│   │   ├── utils/                # Utility functions and helpers
+│   │   ├── middlewares/          # Middleware functions (e.g., authentication)
+│   │   └── index.ts              # Entry point of the backend application
+│   ├── tests/                    # Test files for backend code
+│   │   ├── unit/                 # Unit tests
+│   │   └── integration/          # Integration tests
+│   ├── .env                      # Environment variables
+│   ├── .gitignore                # Git ignore file
+│   ├── jest.config.ts            # Jest configuration file for backend
+│   ├── tsconfig.json             # TypeScript configuration file for backend
+│   ├── package.json              # Backend project dependencies and scripts
+│   └── nodemon.json              # Nodemon configuration (optional)
+├── frontend/                     # Frontend-specific files and directories
+│   ├── public/                   # Static assets and public files
+│   ├── src/                      # Source code for the frontend
+│   │   ├── components/           # React components or similar
+│   │   ├── pages/                # Page components or views
+│   │   ├── hooks/                # Custom hooks (if using React)
+│   │   ├── contexts/             # Contexts for state management
+│   │   ├── styles/               # Stylesheets and CSS modules
+│   │   ├── utils/                # Utility functions for frontend
+│   │   └── index.tsx             # Entry point of the frontend application
+│   ├── tests/                    # Test files for frontend code
+│   │   ├── unit/                 # Unit tests
+│   │   └── integration/          # Integration tests
+│   ├── tsconfig.json             # TypeScript configuration file for frontend
+│   ├── package.json              # Frontend project dependencies and scripts
+│   └── .env                      # Environment variables for frontend
+└── .gitignore                    # Git ignore file for the entire project
+
+backend command to run the server..
+npx nodemon src/index.ts
+
+frontend command to run the server
+npm run dev
