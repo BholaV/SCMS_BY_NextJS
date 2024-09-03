@@ -59,6 +59,7 @@ function ProductInventry() {
     let userId: any | null = null;
     const user: User = JSON.parse(userString);
     userId = user._id;
+    console.log(userId)
     if (userId) {
       const productId = product._id; // Get product ID
 

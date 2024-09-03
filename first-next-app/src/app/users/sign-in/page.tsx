@@ -4,9 +4,11 @@ import Link from 'next/link';
 import Swal from 'sweetalert2';
 import '../page.css';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function SignIn() {
+    const router = useRouter();
     // State hooks for form fields, errors, and submission status
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -81,7 +83,7 @@ export default function SignIn() {
                     text: 'Your account has been created successfully!',
                     confirmButtonText: 'OK',
                 });
-
+                router.replace("/dashboard")
                 // Clear form fields
                 setEmail('');
                 setPassword('');
