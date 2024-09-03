@@ -69,7 +69,7 @@ export default function SupplierAccCreation() {
       nameError.style.color = 'red';
     } else if (!/^[a-zA-Z\s]+$/.test(usernameValue)) {
       status = false;
-      nameError.innerHTML = "Name must be characters and spaces only";
+      nameError.innerHTML = "Name must be characters";
       nameError.style.color = 'red';
     } else {
       nameError.innerHTML = "";
@@ -84,7 +84,7 @@ export default function SupplierAccCreation() {
   const register = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (checkUserName({ target: { value: username } } as ChangeEvent<HTMLInputElement>) && username && category && contact) {
-      axios.post(process.env.REACT_APP_SUPPLIER_ADD as string, { contact, productCategory: category, name: username })
+      axios.post(process.env.NEXT_PUBLIC_SUPPLIER_ADD as string, { contact, productCategory: category, name: username })
         .then(result => {
           if (result.data.message === 'User already exists') {
             Swal.fire({
@@ -115,7 +115,7 @@ export default function SupplierAccCreation() {
   return (
     <>
       <section id="supply-bg" className='d-flex justify-content-center align-items-center flex-column p-5' style={style}>
-        <form className="form" onSubmit={register}>
+        <form className="form form-group" onSubmit={register}>
           <h2 className='text-dark m-1'>Supplier Account Form</h2>
 
           {/* Username input */}
@@ -129,7 +129,7 @@ export default function SupplierAccCreation() {
               value={username} 
               required 
               onChange={checkUserName} 
-              className="input" 
+              className="input form-control m-3" 
               placeholder="Enter your Name" 
             />
           </div>
@@ -146,7 +146,7 @@ export default function SupplierAccCreation() {
               value={contact} 
               required 
               onChange={handleContact} 
-              className="input" 
+              className="input form-control m-3" 
               placeholder="Enter phone" 
             />
           </div>
@@ -163,7 +163,7 @@ export default function SupplierAccCreation() {
               value={category} 
               required 
               onChange={handleCategory} 
-              className="input" 
+              className="input form-control m-3" 
               placeholder="Enter product category" 
             />
           </div>

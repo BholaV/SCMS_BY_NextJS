@@ -41,6 +41,11 @@
       "static/chunks/main-app.js",
       "static/css/app/supplier/create-account/page.css",
       "static/chunks/app/supplier/create-account/page.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

@@ -29,7 +29,6 @@ function ProductInventry() {
       try {
 
         axios.get(`${process.env.NEXT_PUBLIC_PRODUCT_VIEW_ALL}`).then(result=>{
-            console.log(result.data.result)
             setProductList(result.data.result);
         }).catch(err=>{
             console.log(err);
@@ -122,7 +121,7 @@ function ProductInventry() {
       {!loading ? (
         <section id="product-inventry-parent">
           {productList?.map((data, index) => (
-            <div id="product-invt" key={data._id}>
+            <div id="product-invt" className='border' key={data._id}>
               {/* Main product image */}
               <div className='d-flex justify-content-center align-items-center w-100 m-2'>
               <img src={data.thumbnail} width="250px" height="250px" id={`thumbnail-${index}`} />
@@ -131,29 +130,29 @@ function ProductInventry() {
               {/* Thumbnails for changing the main product image */}
               <div className="d-flex w-100 justify-content-center p-2">
                 {data.images?.map((productImg, ind) =>
-                  <div key={ind} className="border ms-4" style={{ cursor: 'pointer' }} onClick={() => changeImg(productImg, index)}>
+                  <div key={ind} className="border rounded ms-4" style={{ cursor: 'pointer' }} onClick={() => changeImg(productImg, index)}>
                     <img src={productImg} alt="image" style={{ width: '50px', height: '50px' }} />
                   </div>
                 )}
               </div>
 
-              {/* Product title */}
-              <h4 className='text-center'>{data.title?.slice(0, 15)}</h4>
               {/* Product category */}
-              <p className="text-center fs-5 m-1">
+              <p className="text-center text-success fs-6 m-1">
                 Category : <b className="fw-bold">{data.categoryName}</b>
               </p>
+              {/* Product title */}
+              <h6 className='text-center fw-bold'>{data.title?.slice(0, 25)}</h6>
               {/* Product price and discount */}
               <div className='text-center'>
               <h6 id="price" className='d-inline p-1'>
                 Price: <b>{(data.price * 10).toFixed(2)}</b> <FaRupeeSign />
               </h6>&nbsp;&nbsp;&nbsp;
-              <span>{data.discountPercentage}% Off</span>
+              <span className='text-center m-0'>{data.discountPercentage}% Off</span>
               </div>
 
               {/* Button to create an order */}
               <center>
-                <button className="m-1 btn btn-outline-primary center w-50" onClick={() => createOrder(data)}>Order</button>
+                <button className="m-2 btn btn-primary center w-75" onClick={() => createOrder(data)}>Order now</button>
               </center>
             </div>
           ))}

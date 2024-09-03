@@ -11,8 +11,11 @@ import type { Navigation, Router } from '@toolpad/core';
 import { FaRegUserCircle } from "react-icons/fa";
 import { AiOutlineProduct } from "react-icons/ai";
 import { RiShutDownLine } from "react-icons/ri";
+import { FaUsers } from "react-icons/fa";
+import { IoIosNotifications } from "react-icons/io";
 import SupplierCard from '../supplier/view-accounts/page';
 import ProductInventry from '../product/page';
+import SupplierAccCreation from '../supplier/create-account/page';
 const NAVIGATION: Navigation = [
   {
     segment: 'dashboard',
@@ -20,14 +23,14 @@ const NAVIGATION: Navigation = [
     icon: <DashboardIcon />,
   },
   {
-      segment: 'add supplier',
+      segment: 'add-supplier',
       title: 'Add Supplier',
       icon: <FaRegUserCircle className='fs-4'/>,
     },
     {
         segment: 'supplier',
         title: 'Suppliers',
-        icon: <FaRegUserCircle className='fs-4'/>,
+        icon: <FaUsers className='fs-4'/>,
     },
     {
         segment: 'product',
@@ -39,6 +42,11 @@ const NAVIGATION: Navigation = [
       title: 'Orders',
       icon: <ShoppingCartIcon />,
     },
+    {
+        segment: 'notification',
+        title: 'Notification',
+        icon: <IoIosNotifications className='fs-4'/>,
+      },
     {
       segment: 'logout',
       title: 'Logout',
@@ -81,6 +89,8 @@ function DemoPageContent({ pathname }: { pathname: string }) {
         <SupplierCard />
       ) : pathname === '/product' ? (
         <ProductInventry />
+      ) : pathname === '/add-supplier' ? (
+        <SupplierAccCreation />
       ) : (
         'Hello'
       )}

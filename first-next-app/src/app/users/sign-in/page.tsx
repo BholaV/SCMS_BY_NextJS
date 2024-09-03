@@ -1,100 +1,146 @@
-"use client"
-import { useState, FormEvent } from 'react';
+"use client";
+import { useState, FormEvent, ChangeEvent } from 'react';
 import Link from 'next/link';
-import React from 'react';
 import Swal from 'sweetalert2';
 import '../page.css';
+import axios from 'axios';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function SignIn() {
-    // State hooks for form fields and submission status
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+    // State hooks for form fields, errors, and submission status
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [errors, setErrors] = useState<{ email: string | null; password: string | null }>({
+        email: null,
+        password: null,
+    });
+    const [loading, setLoading] = useState<boolean>(false);
+
+    // Validate email
+    const validateEmail = (value: string): string | null => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (value.trim().length === 0) return 'Email is required';
+        if (!emailRegex.test(value)) return 'Invalid email address';
+        return null;
+    };
+
+    // Validate password
+    const validatePassword = (value: string): string | null => {
+        if (value.trim().length === 0) return 'Password is required';
+        if (value.length < 6) return 'Password must be at least 6 characters';
+        return null;
+    };
+
+    // Handle input change and validate field
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        let error: string | null = null;
+        if (name === 'email') {
+            error = validateEmail(value);
+            setEmail(value);
+        } else if (name === 'password') {
+            error = validatePassword(value);
+            setPassword(value);
+        }
+
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [name]: error,
+        }));
+    };
 
     // Handle form submission
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault(); // Prevent default form submission behavior
 
         setLoading(true); // Set loading state
-        setError(null); // Reset error state
+        setErrors({ email: null, password: null }); // Reset errors
 
-        try {
-            const response = await fetch('/api/signin', { // Replace with your API endpoint
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
+        // Validate all fields
+        const emailError = validateEmail(email);
+        const passwordError = validatePassword(password);
+
+        if (emailError || passwordError) {
+            setErrors({
+                email: emailError,
+                password: passwordError,
             });
-
-            if (!response.ok) {
-                throw new Error('Sign in failed');
-            }
-
-            // Handle successful sign-in
-            const data = await response.json();
-            Swal.fire({
-                icon: 'success',
-                title: 'Sign In Successful',
-                text: 'Welcome back!',
-                confirmButtonText: 'OK',
-            });
-
-            console.log('Sign in successful:', data);
-            // Redirect or update state as needed
-        } catch (err) {
-            // Handle sign-in failure
-            console.error('Error during sign-in:', err);
-            Swal.fire({
-                icon: 'error',
-                title: 'Sign In Failed',
-                text: err instanceof Error ? err.message : 'An error occurred during sign-in.',
-                confirmButtonText: 'Try Again',
-            });
-        } finally {
             setLoading(false); // Reset loading state
+            return;
         }
+
+        axios.post(`${process.env.NEXT_PUBLIC_USER_SIGN_IN}`, {email,password})
+            .then(response => {
+                const user = response.data.user;
+                localStorage.setItem("user",JSON.stringify(user));
+                // Display success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sign Up Successful',
+                    text: 'Your account has been created successfully!',
+                    confirmButtonText: 'OK',
+                });
+
+                // Clear form fields
+                setEmail('');
+                setPassword('');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Display error alert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Sign Up Failed',
+                    text: error instanceof Error ? error.message : 'An error occurred during sign-up.',
+                    confirmButtonText: 'Try Again',
+                });
+            });
     };
 
-    return (<>
+    return (
         <div className='main-signup-page'>
-        {/* <div className='border'>
-                <img className='img-content'  src='https://www.nicepng.com/png/detail/635-6350140_female-computer-user-user-computer.png' alt='no image found..'/>
-            </div> */}
             <form className="form p-4" onSubmit={handleSubmit}>
                 <h1 className="form-title mb-0">Welcome Back</h1>
                 <p className='text-center'>Sign in with your account</p>
+
+                {/* Email input */}
                 <div className="input-container">
                     <input
                         type="email"
+                        name="email"
                         placeholder="Enter email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleInputChange}
                         aria-label="Email"
                         required
                     />
+                    {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
                 </div>
+
+                {/* Password input */}
                 <div className="input-container">
                     <input
                         type="password"
+                        name="password"
                         placeholder="Enter password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handleInputChange}
                         aria-label="Password"
                         required
                     />
+                    {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
                 </div>
+
                 <button type="submit" className="submit" disabled={loading}>
                     {loading ? 'Signing in...' : 'Sign in'}
                 </button>
+
                 <p className="signup-link">
                     No account?
                     <Link href="/users/sign-up"> Sign up</Link>
                 </p>
             </form>
         </div>
-    </>
     );
 }
