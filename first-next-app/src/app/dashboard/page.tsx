@@ -11,7 +11,8 @@ import type { Navigation, Router } from '@toolpad/core';
 import { FaRegUserCircle } from "react-icons/fa";
 import { AiOutlineProduct } from "react-icons/ai";
 import { RiShutDownLine } from "react-icons/ri";
-
+import SupplierCard from '../supplier/view-accounts/page';
+import ProductInventry from '../product/page';
 const NAVIGATION: Navigation = [
   {
     segment: 'dashboard',
@@ -19,25 +20,30 @@ const NAVIGATION: Navigation = [
     icon: <DashboardIcon />,
   },
   {
-    segment: 'orders',
-    title: 'Orders',
-    icon: <ShoppingCartIcon />,
-  },
-  {
-    segment: 'supplier',
-    title: 'Supplier',
-    icon: <FaRegUserCircle className='fs-4'/>,
-  },
-  {
-    segment: 'product',
-    title: 'Product',
-    icon: <AiOutlineProduct className='fs-4'/>,
-  },
-  {
-    segment: 'logout',
-    title: 'Logout',
-    icon: <RiShutDownLine className='fs-4'/>,
-  },
+      segment: 'add supplier',
+      title: 'Add Supplier',
+      icon: <FaRegUserCircle className='fs-4'/>,
+    },
+    {
+        segment: 'supplier',
+        title: 'Suppliers',
+        icon: <FaRegUserCircle className='fs-4'/>,
+    },
+    {
+        segment: 'product',
+        title: 'Product',
+        icon: <AiOutlineProduct className='fs-4'/>,
+    },
+    {
+      segment: 'orders',
+      title: 'Orders',
+      icon: <ShoppingCartIcon />,
+    },
+    {
+      segment: 'logout',
+      title: 'Logout',
+      icon: <RiShutDownLine className='fs-4'/>,
+    },
 ];
 
 const demoTheme = createTheme({
@@ -57,18 +63,28 @@ const demoTheme = createTheme({
 });
 
 function DemoPageContent({ pathname }: { pathname: string }) {
-  return (
-    <Box
+  return (<>
+    {/* <Box
       sx={{
-        py: 4,
+          py: 4,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
-      }}
+    }}
     >
-      <Typography>Dashboard content for {pathname}</Typography>
-    </Box>
+      <Typography>Dashboard content for {pathname=='/supplier'?(
+          <SupplierCard/>
+        ):(<h1>Hello</h1>)}</Typography>
+    </Box> */}
+    {pathname === '/supplier' ? (
+        <SupplierCard />
+      ) : pathname === '/product' ? (
+        <ProductInventry />
+      ) : (
+        'Hello'
+      )}
+    </>
   );
 }
 
