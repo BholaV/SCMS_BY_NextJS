@@ -44,7 +44,6 @@ export default function Home() {
       {active &&
       <main >
         <DashboardLayoutBranding/>
-        {/* <Link href="/users/sign-up">click me</Link> */}
       </main>}
     </>
   );
