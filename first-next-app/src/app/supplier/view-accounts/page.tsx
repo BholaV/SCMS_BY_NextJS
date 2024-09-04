@@ -49,7 +49,7 @@ export default function SupplierCard() {
             console.error('API URL is not defined');
             setLoading(false);
         }
-    }, []);
+    }, [supplierList,isEditing]);
 
     const handleEditClick = (supplier: Supplier) => {
         setPhoneErr(null);

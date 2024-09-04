@@ -1,11 +1,23 @@
+"use client"
 // pages/index.js
 import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Head from "next/head";
 import DashboardLayoutBranding from "./dashboard/page";
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [active,setActive] = useState(false);
+  useEffect(() => {
+    if(!localStorage.getItem("user")){
+      redirect("/users/sign-in")
+    }else{
+      setActive(true);
+      redirect("/")
+    }
+  }, [])
   return (
     <>
       <Head>
@@ -29,10 +41,11 @@ export default function Home() {
           defer
         ></script>
       </Head>
+      {active &&
       <main >
         <DashboardLayoutBranding/>
         {/* <Link href="/users/sign-up">click me</Link> */}
-      </main>
+      </main>}
     </>
   );
 }

@@ -104,8 +104,7 @@ export const addStock = async (req: Request<{ productId: string }>, res: Respons
         const product:any = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
-        }
-
+        } 
         product.stock += 1;
         await product.save();
         return res.status(200).json({ message: "Product stock updated", product });

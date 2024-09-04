@@ -30,10 +30,17 @@
       "static/css/app/order/page.css",
       "static/chunks/app/order/page.js"
     ],
-    "/_not-found/page": [
+    "/users/sign-in/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/css/app/users/sign-in/page.css",
+      "static/chunks/app/users/sign-in/page.js"
+    ],
+    "/users/sign-up/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/users/sign-up/page.css",
+      "static/chunks/app/users/sign-up/page.js"
     ]
   }
 }

@@ -1,7 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
+  "/order/page": "app/order/page.js",
+  "/users/sign-in/page": "app/users/sign-in/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/product/product-alert/page": "app/product/product-alert/page.js",
-  "/order/page": "app/order/page.js"
+  "/users/sign-up/page": "app/users/sign-up/page.js"
 }

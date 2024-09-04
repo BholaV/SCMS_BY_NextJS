@@ -79,8 +79,8 @@ export default function SignIn() {
                 // Display success alert
                 Swal.fire({
                     icon: 'success',
-                    title: 'Sign Up Successful',
-                    text: 'Your account has been created successfully!',
+                    title: 'Sign In Successfully..',
+                    text: 'Yeah🤩 ! Welcome back',
                     confirmButtonText: 'OK',
                 });
                 router.replace("/dashboard")
@@ -89,12 +89,12 @@ export default function SignIn() {
                 setPassword('');
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error:', error.response.data.error);
                 // Display error alert
                 Swal.fire({
                     icon: 'error',
                     title: 'Sign Up Failed',
-                    text: error instanceof Error ? error.message : 'An error occurred during sign-up.',
+                    text: error instanceof Error ? error.response.data.error : 'An error occurred during sign-up.',
                     confirmButtonText: 'Try Again',
                 });
             });
@@ -134,8 +134,8 @@ export default function SignIn() {
                     {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
                 </div>
 
-                <button type="submit" className="submit" disabled={loading}>
-                    {loading ? 'Signing in...' : 'Sign in'}
+                <button type="submit" className="submit" >
+                    Sign in
                 </button>
 
                 <p className="signup-link">

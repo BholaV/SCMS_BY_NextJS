@@ -117,7 +117,7 @@ export default function SignUp() {
                 setPassword('');
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error:', error.response);
                 // Display error alert
                 Swal.fire({
                     icon: 'error',
@@ -176,7 +176,6 @@ export default function SignUp() {
                 <button type="submit" className="submit">
                     Sign up
                 </button>
-                
                 <p className="signup-link">
                     Already have an account?
                     <Link href="/users/sign-in"> Sign in</Link>

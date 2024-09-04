@@ -30,19 +30,22 @@ export default function ProductStockAlert() {
     }, []); // Empty dependency array ensures this runs only once on mount
 
     return (
-        <div className="container  p-2 mt-3">
-            <h3 className="text-center">Stock Level</h3>
-            <div className="d-flex flex-wrap">
-                {products.map((data,index)=>(<div className="p-2 w-25" key={index}>
-                    <div className="m-2 d-flex rounded justify-content-center p-2 align-items-center border flex-column">
-                    <h5>{index+1}</h5>
-                    <img src={data.thumbnail} style={{width:'150px',height:'150px'}}/>
-                    <h6 className="text-center mt-2">{data.title.slice(0,20)}</h6>
-                    <h5 className="text-center">Price: {(data.price*10).toFixed(2)}</h5>
-                    <p className="fs-5">Stock: <span className="text-danger">{data.stock}</span></p>
-                    </div >
-                </div>))}
-            </div>
+        <div className="container p-2 mt-3">
+        <h3 className="text-center">Stock Level</h3>
+        <div className="d-flex justify-content-center align-items-between flex-row flex-wrap">
+            {products.map((data, index) => (
+                <div className="product-item p-2" key={index}>
+                    <div className="d-flex flex-column rounded align-items-center p-2 border" style={{width:'250px'}}>
+                        <h5>{index + 1}</h5>
+                        <img src={data.thumbnail} alt={data.title} style={{ width: '150px', height: '150px' }} />
+                        <h6 className="text-center mt-2">{data.title.slice(0, 20)}</h6>
+                        <h5 className="text-center">Price: {(data.price * 10).toFixed(2)}</h5>
+                        <p className="fs-5">Stock: <span className="text-danger">{data.stock}</span></p>
+                    </div>
+                </div>
+            ))}
         </div>
+    </div>
+    
     );
 }

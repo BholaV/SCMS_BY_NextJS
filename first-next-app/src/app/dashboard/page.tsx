@@ -17,7 +17,9 @@ import SupplierCard from '../supplier/view-accounts/page';
 import ProductInventry from '../product/product-view/page';
 import SupplierAccCreation from '../supplier/create-account/page';
 import ProductStockAlert from '../product/product-alert/page';
+import { useRouter  } from 'next/navigation';
 import MyOrder from '../order/page';
+import Swal from 'sweetalert2';
 const NAVIGATION: Navigation = [
   {
     segment: 'dashboard',
@@ -34,11 +36,11 @@ const NAVIGATION: Navigation = [
         title: 'Suppliers',
         icon: <FaUsers className='fs-4'/>,
     },
-    {
-        segment: 'product',
-        title: 'Product',
-        icon: <AiOutlineProduct className='fs-4'/>,
-    },
+    // {
+    //     segment: 'product',
+    //     title: 'Product',
+    //     icon: <AiOutlineProduct className='fs-4'/>,
+    // },
     {
       segment: 'orders',
       title: 'Orders',
@@ -71,25 +73,35 @@ const demoTheme = createTheme({
     },
   },
 });
-
 function DemoPageContent({ pathname }: { pathname: string }) {
-  return (<>
-    {/* <Box
-      sx={{
-          py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-    }}
-    >
-      <Typography>Dashboard content for {pathname=='/supplier'?(
-          <SupplierCard/>
-        ):(<h1>Hello</h1>)}</Typography>
-    </Box> */}
-    {pathname === '/supplier' ? (
+  const router = useRouter();
+
+  // Logout function
+  const logout = () => {
+      Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, logout',
+      cancelButtonText: 'No, Stay here'
+    }).then(result=>
+      {
+      if(result.isConfirmed){
+        Swal.fire('Logout successfully', 'Login again.', 'success');
+        localStorage.clear(); // Clear local storage on logout
+        router.push("/users/sign-in"); // Navigate to the sign-in page
+      }
+    }).catch(err=>{
+      Swal.fire('Error', 'Failed to logout.', 'error');
+    });
+  };
+  // Render logic
+  return (
+    <>
+      {pathname === '/supplier' ? (
         <SupplierCard />
-      ) : pathname === '/product' ? (
+      ) : pathname === '/dashboard' ? (
         <ProductInventry />
       ) : pathname === '/add-supplier' ? (
         <SupplierAccCreation />
@@ -97,6 +109,11 @@ function DemoPageContent({ pathname }: { pathname: string }) {
         <ProductStockAlert />
       ) : pathname === '/orders' ? (
         <MyOrder />
+      ) : pathname === '/logout' ? (
+        // Trigger logout only if pathname matches '/logout'
+        <>
+          {logout()}
+        </>
       ) : (
         'Hello'
       )}
@@ -133,7 +150,7 @@ export default function DashboardLayoutBranding(props: DemoProps) {
     <AppProvider
       navigation={NAVIGATION}
       branding={{
-        logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
+        logo: <img src="https://cdn.prod.website-files.com/5a1eb87c9afe1000014a4c7d/5dc3e6ddb0a692b0a662f1ca_9DO3Z3KeB-C7oGcfwKGuVEszEmH1_QJJjerK75gBAv4XPtlr0_evZny_QntIxCTJGawsQjvOFc62bbY9ZW0GzSdxRDm8sUDQvJ5kzdzQkruUNUrod3zw8STOf_XZYMzvxI2YisE.png" alt="MUI logo" />,
         title: 'SCMS',
       }}
       router={router}

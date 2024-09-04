@@ -171,7 +171,7 @@ export default function MyOrder() {
                                         <h4>Category: <span className='fw-normal'>{data.productId.categoryName}</span></h4>
                                         <h2>
                                             <MdCurrencyRupee /> {(data.productId.price * 10 - (10 * (parseInt(data.productId.price.toString()) * parseInt(data.productId.discountPercentage.toString())) / 100)).toFixed(2)}
-                                            <span className='text-secondary'><del>{(data.productId.price * 10).toFixed(2)}</del></span>
+                                            &nbsp;&nbsp;<span className='text-secondary'><del>{(data.productId.price * 10).toFixed(2)}</del></span>
                                             <span className='text-success fs-3'> {data.productId.discountPercentage}% off</span>
                                         </h2>
                                         <p style={{ fontSize: '18px' }}>Description: {data.productId.description}</p>
@@ -251,7 +251,7 @@ export default function MyOrder() {
                     </div>
                 ) : (
                     <div className='d-flex justify-content-center align-items-center flex-column' style={{ height: '80vh' }}>
-                        <img src="/images/NoOrder.png" alt='no image found' className='border' />
+                        <img src="https://miraaf.com/assets/images/no_order1.png"  alt='no image found' className='border rounded m-2' />
                         <Link href="/">
                             <button className='btn btn-primary bg-primary' style={{ width: '200px' }}>Order Now</button>
                         </Link>
