@@ -79,15 +79,15 @@ export const removeStock = async (req: Request<{ productId: string }>, res: Resp
     const { productId } = req.params;
 
     try {
-        const product = await Product.findById(productId);
+        const product:any = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
-        // if (product.stock <= 0) {
-        //     return res.status(400).json({ message: "Out of stock" });
-        // }
+        if (product.stock <= 0) {
+            return res.status(400).json({ message: "Out of stock" });
+        }
 
-        // product.stock -= 1;
+        product.stock -= 1;
         await product.save();
         return res.status(200).json({ message: "Product stock updated", product });
     } catch (err) {
@@ -101,12 +101,12 @@ export const addStock = async (req: Request<{ productId: string }>, res: Respons
     const { productId } = req.params;
 
     try {
-        const product = await Product.findById(productId);
+        const product:any = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
 
-        // product.stock += 1;
+        product.stock += 1;
         await product.save();
         return res.status(200).json({ message: "Product stock updated", product });
     } catch (err) {
@@ -120,12 +120,12 @@ export const checkStock = async (req: Request<{ productId: string }>, res: Respo
     const { productId } = req.params;
 
     try {
-        const product = await Product.findById(productId);
+        const product:any = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
 
-        // return res.status(200).json({ stockAvailable: product.stock > 0 });
+        return res.status(200).json({ stockAvailable: product.stock > 0 });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });

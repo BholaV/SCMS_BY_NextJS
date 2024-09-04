@@ -32,7 +32,6 @@ const link: string | undefined = process.env.CONNECTION_LINK; // MongoDB connect
 if (link) {
     mongoose.connect(link)
         .then(() => {
-            console.log(link)
             console.log("Connected to MongoDB");
             app.listen(3002, () => {
                 console.log("Server started on port 3002...");

@@ -34,7 +34,7 @@ export const viewOrder = async (req: Request<{ userId: string }>, res: Response,
 export const updateOrder = async (req: Request<{ id: string }, {}, { status: string }>, res: Response, next: NextFunction) => {
     const orderId = req.params.id;
     const newStatus = req.body.status;
-
+    console.log("updateOrder "+orderId)
     try {
         const updatedOrder = await Order.findByIdAndUpdate(orderId, { $set: { status: newStatus } }, { new: true }).exec();
         if (!updatedOrder) {

@@ -14,8 +14,10 @@ import { RiShutDownLine } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import SupplierCard from '../supplier/view-accounts/page';
-import ProductInventry from '../product/page';
+import ProductInventry from '../product/product-view/page';
 import SupplierAccCreation from '../supplier/create-account/page';
+import ProductStockAlert from '../product/product-alert/page';
+import MyOrder from '../order/page';
 const NAVIGATION: Navigation = [
   {
     segment: 'dashboard',
@@ -91,6 +93,10 @@ function DemoPageContent({ pathname }: { pathname: string }) {
         <ProductInventry />
       ) : pathname === '/add-supplier' ? (
         <SupplierAccCreation />
+      ) : pathname === '/notification' ? (
+        <ProductStockAlert />
+      ) : pathname === '/orders' ? (
+        <MyOrder />
       ) : (
         'Hello'
       )}
@@ -128,7 +134,7 @@ export default function DashboardLayoutBranding(props: DemoProps) {
       navigation={NAVIGATION}
       branding={{
         logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
-        title: 'Supply Chain Management System',
+        title: 'SCMS',
       }}
       router={router}
       theme={demoTheme}

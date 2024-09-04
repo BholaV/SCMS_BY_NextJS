@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Head from "next/head";
+import DashboardLayoutBranding from "./dashboard/page";
 
 export default function Home() {
   return (
@@ -28,9 +29,9 @@ export default function Home() {
           defer
         ></script>
       </Head>
-      <main className={styles.main}>
-        <h2>Home Page...</h2>
-        <Link href="/users/sign-up">click me</Link>
+      <main >
+        <DashboardLayoutBranding/>
+        {/* <Link href="/users/sign-up">click me</Link> */}
       </main>
     </>
   );
