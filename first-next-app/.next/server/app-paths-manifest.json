@@ -1,7 +1,7 @@
 {
-  "/users/sign-in/page": "app/users/sign-in/page.js",
-  "/order/page": "app/order/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/users/sign-up/page": "app/users/sign-up/page.js"
+  "/dashboard/page": "app/dashboard/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/users/sign-in/page": "app/users/sign-in/page.js"
 }

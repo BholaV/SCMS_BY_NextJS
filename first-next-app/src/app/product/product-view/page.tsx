@@ -69,7 +69,11 @@ function ProductInventry() {
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Yes, create order',
-        cancelButtonText: 'No, cancel'
+        cancelButtonText: 'No, cancel',
+        customClass: {
+          confirmButton: 'btn btn-primary', // Bootstrap success button
+          cancelButton: 'btn btn-danger'    // Bootstrap danger button
+        }
       }).then(async (result:any) => {
         if (result.isConfirmed) {
           try {
@@ -87,7 +91,10 @@ function ProductInventry() {
               Swal.fire({
                 title: 'Order created!',
                 text: 'Your order has been created successfully',
-                icon: 'success'
+                icon: 'success',
+                customClass:{
+                  confirmButton: 'btn btn-primary',
+                }
               });
             } else {
               // Notify the user if the product is out of stock
@@ -146,7 +153,7 @@ function ProductInventry() {
               {/* Product price and discount */}
               <div className='text-center'>
               <h6 id="price" className='d-inline p-1'>
-                Price: <b>{(data.price * 10).toFixed(2)}</b> <FaRupeeSign />
+                Price: <b>{(data.price * 10 - (10 * (parseInt(data.price.toString()) * parseInt(data.discountPercentage.toString())) / 100)).toFixed(2)}</b> <FaRupeeSign />
               </h6>&nbsp;&nbsp;&nbsp;
               <span className='text-center m-0'>{data.discountPercentage}% Off</span>
               </div>

@@ -89,7 +89,11 @@ export default function MyOrder() {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, keep it'
+            cancelButtonText: 'No, keep it',
+            customClass: {
+                confirmButton: 'btn btn-primary', // Bootstrap success button
+                cancelButton: 'btn btn-danger'    // Bootstrap danger button
+              }
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.delete(`${orderRemoveUrl}/${orderId}`)

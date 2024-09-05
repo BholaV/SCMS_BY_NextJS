@@ -39,7 +39,7 @@ export default function ProductStockAlert() {
                         <h5>{index + 1}</h5>
                         <img src={data.thumbnail} alt={data.title} style={{ width: '150px', height: '150px' }} />
                         <h6 className="text-center mt-2">{data.title.slice(0, 20)}</h6>
-                        <h5 className="text-center">Price: {(data.price * 10).toFixed(2)}</h5>
+                        <h5 className="text-center">Price: {(data.price * 10 - (10 * (parseInt(data.price.toString()) * parseInt(data.discountPercentage.toString())) / 100)).toFixed(2)}</h5>
                         <p className="fs-5">Stock: <span className="text-danger">{data.stock}</span></p>
                     </div>
                 </div>
