@@ -1,23 +1,22 @@
 import request from 'supertest';
-import app from '../../src'; // Adjust the path to your Express app
-import User from '../../src/Model/user.model'; // Adjust the path to your User model
+import app from '../../src'; // Adjust path to your Express app
+import User from '../../src/Model/user.model'; // Adjust path to your User model
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs'; // If you're using bcrypt for password hashing
+import bcrypt from 'bcryptjs';
 
 // Mock User model methods
 jest.mock('../../src/Model/user.model');
 
-// Assuming the User model has a checkPassword method
-// If not, you should add it to the User model or adjust the mock accordingly
+// Create a hashed password
 const mockUser = {
     email: 'chandu@gmail.com',
-    password: bcrypt.hashSync('123456', 10), // Adjust according to your hash setup
+    password: bcrypt.hashSync('123456', 10),
 };
 
+// Define your tests
 describe('POST /user/signin', () => {
     beforeAll(async () => {
-        await mongoose.connect(process.env.CONNECTION_LINK || 'mongodb://localhost:27017/test', {
-        });
+        await mongoose.connect(process.env.CONNECTION_LINK || 'mongodb://localhost:27017/test');
     });
 
     afterAll(async () => {
@@ -25,43 +24,34 @@ describe('POST /user/signin', () => {
     });
 
     beforeEach(() => {
-        // Clear mock calls before each test
-        (User.findOne as jest.Mock).mockClear();
-        (User.checkPassword as jest.Mock).mockClear();
+        jest.clearAllMocks(); // Clear all mocks before each test
     });
 
     it('should return 401 if user does not exist', async () => {
-        // Mock the User.findOne method to return null
         (User.findOne as jest.Mock).mockResolvedValue(null);
 
         const response = await request(app)
             .post('/user/signin')
-            .send({ email: 'chandu@gmail.com', password: '123456' });
+            .send({ email: 'sumit@gmail.com', password: '123456' });
 
         expect(response.status).toBe(401);
         expect(response.body.error).toBe('Unauthorized user');
     });
 
     it('should return 401 if password is invalid', async () => {
-        // Mock the User.findOne method to return a user
         (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-
-        // Mock the User.checkPassword method to return false
         (User.checkPassword as jest.Mock).mockResolvedValue(false);
 
         const response = await request(app)
             .post('/user/signin')
-            .send({ email: 'chandu@gmail.com', password: 'wrongPassword' });
+            .send({ email: 'chandu@gmail.com', password: '154646' });
 
         expect(response.status).toBe(401);
         expect(response.body.error).toBe('Invalid password');
     });
 
     it('should return 200 if user signs in successfully', async () => {
-        // Mock the User.findOne method to return a user
         (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-
-        // Mock the User.checkPassword method to return true
         (User.checkPassword as jest.Mock).mockResolvedValue(true);
 
         const response = await request(app)
@@ -76,9 +66,8 @@ describe('POST /user/signin', () => {
     });
 
     it('should return 500 if there is an internal server error', async () => {
-        // Mock the User.findOne method to throw an error
         (User.findOne as jest.Mock).mockRejectedValue(new Error('Database error'));
-
+        await mongoose.disconnect();
         const response = await request(app)
             .post('/user/signin')
             .send({ email: 'test@example.com', password: 'password123' });

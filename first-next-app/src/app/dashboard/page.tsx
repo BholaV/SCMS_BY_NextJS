@@ -96,6 +96,7 @@ function DemoPageContent({ pathname }: { pathname: string }) {
       Swal.fire('Error', 'Failed to logout.', 'error');
     });
   };
+  
   // Render logic
   return (
     <>

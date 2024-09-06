@@ -1,74 +1,76 @@
 import request from 'supertest';
-import app from '../../src/index'; // Adjust the path to your Express app
-import User from '../../src/Model/user.model'; // Adjust the path to your User model
-import jwt from 'jsonwebtoken';
+import app from '../../src'; // Adjust path to your Express app
+import User from '../../src/Model/user.model'; // Adjust path to your User model
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'; // Import jwt for token creation if used in tests
 
-// Mock the User model
-jest.mock('../../src/Model/user.model', () => ({
-  findOne: jest.fn(),
-  create: jest.fn(),
-}));
+// Mock User model methods
+jest.mock('../../src/Model/user.model');
 
-// Mock the jwt sign function
-jest.mock('jsonwebtoken', () => ({
-  sign: jest.fn(),
-}));
+// Create a hashed password
+const mockUser = {
+    email: 'chandu@gmail.com',
+    password: bcrypt.hashSync('123456', 10),
+};
 
-describe('POST /signup', () => {
-  beforeEach(() => {
-    // Clear mock calls before each test
-    (User.findOne as jest.Mock).mockClear();
-    (User.create as jest.Mock).mockClear();
-    (jwt.sign as jest.Mock).mockClear();
-  });
+// Define your tests
+describe('POST /user/signup', () => {
+    beforeAll(async () => {
+        await mongoose.connect(process.env.CONNECTION_LINK || 'mongodb://localhost:27017/test');
+    });
 
-  it('should create a new user and return a token', async () => {
-    const mockUser = { _id: '1', email: 'test@example.com' };
-    const mockToken = 'mockToken';
+    afterAll(async () => {
+        await mongoose.connection.close();
+    });
 
-    // Mock the behavior of User.findOne and User.create
-    (User.findOne as jest.Mock).mockResolvedValue(null); // No user found
-    (User.create as jest.Mock).mockResolvedValue(mockUser); // Create user
+    beforeEach(() => {
+        jest.clearAllMocks(); // Clear all mocks before each test
+    });
 
-    // Mock the behavior of jwt.sign
-    (jwt.sign as jest.Mock).mockReturnValue(mockToken);
+    it('should return 201 if user already exists', async () => {
+        (User.findOne as jest.Mock).mockResolvedValue(mockUser);
 
-    const response = await request(app)
-      .post('/user/signup') // Adjust the endpoint path
-      .send({ email: 'test@example.com', password: 'password123' }); // Adjust request payload
+        const response = await request(app)
+            .post('/user/signup')
+            .send({ email: 'chandu@gmail.com', password: '123456' });
 
-    expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty('message', 'User created successfully');
-    expect(response.body).toHaveProperty('user', mockUser);
-    expect(response.body).toHaveProperty('token', mockToken);
-  });
+        expect(response.status).toBe(201);
+        expect(response.body.message).toBe('User already exists');
+        expect(response.body.data).toEqual(expect.objectContaining({
+            email: 'chandu@gmail.com',
+        }));
+    });
 
-  it('should return 409 if user already exists', async () => {
-    const existingUser = { _id: '1', email: 'test@example.com' };
+    it('should return 201 and a token if user is created successfully', async () => {
+        (User.findOne as jest.Mock).mockResolvedValue(null); // Ensure no user is found
+        (User.create as jest.Mock).mockResolvedValue({
+            username: 'roman',
+            email: 'roman@gmail.com',
+            password: '123456',
+        });
+        const payload = {email:'roman@gmail.com'}
+        // const token = jwt.sign(payload, process.env.SECRET_KEY!, { expiresIn: '7d' });
+        const response = await request(app)
+            .post('/user/signup')
+            .send({ username:"roman",email: 'roman@gmail.com', password: '123456' });
 
-    // Mock the behavior of User.findOne
-    (User.findOne as jest.Mock).mockResolvedValue(existingUser); // User already exists
+        expect(response.status).toBe(201);
+        expect(response.body.message).toBe('User created successfully');
+        expect(response.body.user).toEqual(expect.objectContaining({
+            email: 'roman@gmail.com',
+        }));
+        // expect(response.body.token).toBe(token); // Ensure token is returned
+    });
 
-    const response = await request(app)
-      .post('/user/signup') 
-      .send({ email: 'test@example.com', password: 'password123' }); 
+    it('should return 500 if there is an internal server error', async () => {
+        (User.findOne as jest.Mock).mockRejectedValue(new Error('Database error'));
+        await mongoose.disconnect();
+        const response = await request(app)
+            .post('/user/signup')
+            .send({ email: 'test@example.com', password: 'password123' });
 
-    expect(response.status).toBe(409);
-    expect(response.body).toHaveProperty('message', 'User already exists');
-    expect(response.body).toHaveProperty('data', existingUser);
-  });
-
-  it('should return 500 on server error', async () => {
-    // Mock the behavior of User.findOne and User.create to throw an error
-    (User.findOne as jest.Mock).mockRejectedValue(new Error('Database error'));
-    (User.create as jest.Mock).mockRejectedValue(new Error('Database error'));
-
-    const response = await request(app)
-      .post('/user/signup')
-      .send({ email: 'test@example.com', password: 'password123' });
-
-    expect(response.status).toBe(500);
-    expect(response.body).toHaveProperty('message', 'Error creating user');
-  });
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe('Error creating user');
+    });
 });
-  

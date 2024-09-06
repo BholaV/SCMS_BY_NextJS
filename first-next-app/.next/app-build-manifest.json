@@ -24,6 +24,12 @@
       "static/css/app/users/sign-in/page.css",
       "static/chunks/app/users/sign-in/page.js"
     ],
+    "/users/sign-up/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/users/sign-up/page.css",
+      "static/chunks/app/users/sign-up/page.js"
+    ],
     "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

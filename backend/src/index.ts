@@ -13,6 +13,7 @@ import connectDB from './Connect_DB/db_config';
 config();
 
 const app: Express = express();
+let server: any = null; // Initialize server variable
 
 // Middleware setup
 app.use(cors()); // Enable CORS for cross-origin requests
@@ -31,14 +32,36 @@ const port = process.env.PORT || 3002; // Use environment port or default to 300
 const startServer = async () => {
     try {
         await connectDB(); // Ensure DB is connected
-        app.listen(port, () => {
+        server = app.listen(port, () => {
             console.log(`Server started on port ${port}...`);
         });
     } catch (error) {
-        console.error("Failed to start server:", error);
-        process.exit(1); // Exit process with failure
-    }
+        console.log("Failed to start server:", error);    }
 };
-startServer();
-export { startServer }; // Export startServer for testing or further configuration
+
+const closeServer = async () => {
+    if (server) {
+        // Close the server
+        await new Promise<void>((resolve, reject) => {
+            server.close((err: Error) => {
+                if (err) {
+                    console.error('Error closing server:', err);
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        });
+    }
+    // Disconnect from MongoDB
+    await mongoose.disconnect();
+    console.log('Server and database disconnected.');
+};
+
+export { startServer, closeServer }; // Export functions for testing or further configuration
 export default app; // Export the app itself
+
+// Start the server on script execution
+if (require.main === module) {
+    startServer();
+}

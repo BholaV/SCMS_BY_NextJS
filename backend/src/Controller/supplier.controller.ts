@@ -17,7 +17,7 @@ export const addSupplier = async (req: Request, res: Response, next: NextFunctio
             return res.status(201).json({ message: "Supplier account created successfully", supplier });
         }
     } catch (err) {
-        console.error(err);
+        // console.log(err);
         return res.status(500).json({ message: "Error creating supplier" });
     }
 };
@@ -33,7 +33,7 @@ export const removeSupplier = async (req: Request, res: Response, next: NextFunc
         }
         return res.status(200).json({ message: "Supplier deleted successfully" });
     } catch (err) {
-        console.error(err);
+        console.log(err);
         return res.status(500).json({ message: "Error deleting supplier" });
     }
 };
