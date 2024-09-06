@@ -66,7 +66,7 @@ export const updateSupplier = async (req: Request, res: Response, next: NextFunc
         }
         return res.status(200).json({ supplier });
     } catch (error) {
-        console.error('Error updating supplier:', error);
+        console.log('Error updating supplier:', error);
         return res.status(500).json({ error: 'An error occurred while updating the supplier' });
     }
 };
@@ -77,7 +77,6 @@ export const ViewAllSupplier = async (req: Request, res: Response, next: NextFun
         const suppliers = await Supplier.find();
         return res.status(200).json({ message: "All Suppliers", suppliers });
     } catch (err) {
-        console.error(err);
         return res.status(500).json({ message: "Something went wrong" });
     }
 }

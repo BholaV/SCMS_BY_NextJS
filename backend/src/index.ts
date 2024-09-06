@@ -45,7 +45,7 @@ const closeServer = async () => {
         await new Promise<void>((resolve, reject) => {
             server.close((err: Error) => {
                 if (err) {
-                    console.error('Error closing server:', err);
+                    console.log('Error closing server:', err);
                     reject(err);
                 } else {
                     resolve();
