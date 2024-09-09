@@ -38,5 +38,14 @@ project-root/
 backend command to run the server..
 npx nodemon src/index.ts
 
+for backend
+npm start
+
 frontend command to run the server
 npm run dev
+
+for cypress
+npx cypress open
+
+for jest
+npm tests

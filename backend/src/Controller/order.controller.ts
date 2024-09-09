@@ -8,8 +8,8 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
         const result = await Order.create(req.body);
         res.status(200).json({ message: 'Order placed successfully...', result });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error...', error: err });
+        console.log(err);
+        res.status(500).json({ message: 'Internal server error', error: err });
     }
 };
 
@@ -25,7 +25,7 @@ export const viewOrder = async (req: Request<{ userId: string }>, res: Response,
         
         res.status(200).json(orders);
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error });
     }
 };
@@ -42,7 +42,7 @@ export const updateOrder = async (req: Request<{ id: string }, {}, { status: str
             res.status(200).json({ message: 'Order updated successfully', updatedOrder });
         }
     } catch (err) {
-        console.error(err);
+        console.log(err);
         res.status(500).json({ message: 'Internal Server Error', error: err });
     }
 };
@@ -51,7 +51,6 @@ export const updateOrder = async (req: Request<{ id: string }, {}, { status: str
 export const removeOrder = async (req: Request<{ orderId: string }>, res: Response, next: NextFunction) => {
     const { orderId } = req.params;
     console.log(orderId + " orderId");
-
     try {
         const order = await Order.findOneAndDelete({ _id: new Types.ObjectId(orderId) }).exec();
         if (!order) {
@@ -59,7 +58,7 @@ export const removeOrder = async (req: Request<{ orderId: string }>, res: Respon
         }
         return res.status(200).json({ message: "Order deleted successfully", order });
     } catch (err) {
-        console.error(err);
+        console.log(err);
         return res.status(500).json({ message: "Error deleting order", error: err });
     }
 };

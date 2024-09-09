@@ -45,20 +45,20 @@
 //     it('should return 201 and a token if user is created successfully', async () => {
 //         (User.findOne as jest.Mock).mockResolvedValue(null); // Ensure no user is found
 //         (User.create as jest.Mock).mockResolvedValue({
-//             username: 'vk',
-//             email: 'vk@gmail.com',
+//             username: 'ranu1234',
+//             email: 'ranu1234@gmail.com',
 //             password: '123456',
 //         });
-//         const payload = {email:'vk@gmail.com'}
+//         const payload = {email:'ranu1234@gmail.com'}
 //         // const token = jwt.sign(payload, process.env.SECRET_KEY!, { expiresIn: '7d' });
 //         const response = await request(app)
 //             .post('/user/signup')
-//             .send({ username:"vk",email: 'vk@gmail.com', password: '123456' });
+//             .send({ username:"ranu1234",email: 'ranu1234@gmail.com', password: '123456' });
 
 //         expect(response.status).toBe(201);
 //         expect(response.body.message).toBe('User created successfully');
 //         expect(response.body.user).toEqual(expect.objectContaining({
-//             email: 'vk@gmail.com',
+//             email: 'ranu1234@gmail.com',
 //         }));
 //         // expect(response.body.token).toBe(token); // Ensure token is returned
 //     });

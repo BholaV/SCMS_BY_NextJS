@@ -11,7 +11,7 @@ describe('Product API', () => {
         await mongoose.connect(process.env.CONNECTION_LINK || 'mongodb://localhost:27017/test');
 
         // Start the server
-        await startServer();
+        // await startServer();
     });
 
     afterAll(async () => {

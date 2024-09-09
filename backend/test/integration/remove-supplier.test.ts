@@ -20,9 +20,6 @@
 //     });
 
 //     it('should return 404 if supplier is not found', async () => {
-//         // Mock the Supplier.findOneAndDelete method to return null
-//         (Supplier.findOneAndDelete as jest.Mock).mockResolvedValue(null);
-
 //         const response = await request(app)
 //             .delete('/supplier/remove-supplier/66daede929c7374e94a39eeb') // Example ID
 //             .send();
@@ -32,13 +29,6 @@
 //     });
 
 //     it('should return 200 if supplier is successfully deleted', async () => {
-//         // Mock the Supplier.findOneAndDelete method to return a deleted supplier
-//         const deletedSupplier = {
-//             _id: '66daed32dd3a878c85a621c4',
-//         };
-
-//         (Supplier.findOneAndDelete as jest.Mock).mockResolvedValue(deletedSupplier);
-
 //         const response = await request(app)
 //             .delete('/supplier/remove-supplier/66daed32dd3a878c85a621c4') // Example ID
 //             .send();

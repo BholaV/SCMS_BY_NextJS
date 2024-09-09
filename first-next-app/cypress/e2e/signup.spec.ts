@@ -3,7 +3,7 @@
 describe('Sign Up Form', () => {
     beforeEach(() => {
       // Visit the sign-up page before each test
-      cy.visit('/sign-up'); // Adjust the path if needed
+      cy.visit('http://localhost:3000/users/sign-up'); // Adjust the path if needed
     });
   
     it('should display validation errors when fields are empty', () => {
@@ -43,17 +43,16 @@ describe('Sign Up Form', () => {
       cy.intercept('POST', `${process.env.NEXT_PUBLIC_USER_SIGN_UP}`, {
         statusCode: 200,
         body: {
-          user: {
             username: 'testuser',
             email: 'testuser@example.com',
-          },
+            password:"123456"
         },
       }).as('signUpRequest');
   
       // Fill in valid data
       cy.get('input[name="username"]').type('testuser');
       cy.get('input[name="email"]').type('testuser@example.com');
-      cy.get('input[name="password"]').type('password123');
+      cy.get('input[name="password"]').type('123456');
       cy.get('form').submit();
   
       // Wait for the API response

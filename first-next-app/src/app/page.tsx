@@ -10,14 +10,14 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [active,setActive] = useState(false);
-  useEffect(() => {
-    if(!localStorage.getItem("user")){
-      redirect("/users/sign-in")
-    }else{
-      setActive(true);
-      redirect("/")
-    }
-  }, [])
+  // useEffect(() => {
+  //   if(!localStorage.getItem("user")){
+  //     redirect("/users/sign-in")
+  //   }else{
+  //     setActive(true);
+  //     redirect("/")
+  //   }
+  // }, [])
   return (
     <>
       <Head>
@@ -41,10 +41,11 @@ export default function Home() {
           defer
         ></script>
       </Head>
-      {active &&
+      {/* {active && */}
       <main >
         <DashboardLayoutBranding/>
-      </main>}
+      </main>
+      {/* } */}
     </>
   );
 }

@@ -164,6 +164,7 @@ export default function SupplierCard() {
 
     return (
         <>
+                    <h3 className="text-center p-4">Supplier list</h3>
             {!isEditing && (
                 <section id='supply'>
                     {supplierList.map((data) =>
