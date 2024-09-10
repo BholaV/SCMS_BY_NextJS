@@ -70,7 +70,7 @@ export default function SignIn() {
             });
             setLoading(false); // Reset loading state
             return;
-        }
+        }else
 
         axios.post(`${process.env.NEXT_PUBLIC_USER_SIGN_IN}`, {email,password})
             .then(response => {
@@ -115,7 +115,7 @@ export default function SignIn() {
                         value={email}
                         onChange={handleInputChange}
                         aria-label="Email"
-                        required
+                        
                     />
                     {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
                 </div>
@@ -129,12 +129,12 @@ export default function SignIn() {
                         value={password}
                         onChange={handleInputChange}
                         aria-label="Password"
-                        required
+                        
                     />
                     {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
                 </div>
 
-                <button type="submit" className="submit" >
+                <button type="submit" className="submit" data-testid="submit-button">
                     Sign in
                 </button>
 

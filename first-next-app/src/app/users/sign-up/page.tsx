@@ -7,9 +7,9 @@ import axios from 'axios';
 
 // Define interface for the form state and errors
 interface SignUpErrors {
-  username: string | null;
-  email: string | null;
-  password: string | null;
+    username: string | null;
+    email: string | null;
+    password: string | null;
 }
 
 export default function SignUp() {
@@ -99,15 +99,16 @@ export default function SignUp() {
         };
 
         // Send a POST request to the API
-        axios.post(`${process.env.NEXT_PUBLIC_USER_SIGN_UP}`, formData)
+        axios.post(process.env.NEXT_PUBLIC_USER_SIGN_UP || '', formData)
             .then(response => {
                 const user = response.data.user;
-                localStorage.setItem("user",JSON.stringify(user));
+                localStorage.setItem("user", JSON.stringify(user));
+
                 // Display success alert
                 Swal.fire({
                     icon: 'success',
-                    title: 'Sign Up Successful',
-                    text: 'Your account has been created successfully!',
+                    title: response.data.message === "User already exists" ? 'Oops! User already exists' : 'Sign Up Successful',
+                    text: response.data.message === "User already exists" ? 'Sign up with a different email' : 'Your account has been created successfully!',
                     confirmButtonText: 'OK',
                 });
 
@@ -117,12 +118,11 @@ export default function SignUp() {
                 setPassword('');
             })
             .catch(error => {
-                console.error('Error:', error.response);
                 // Display error alert
                 Swal.fire({
                     icon: 'error',
                     title: 'Sign Up Failed',
-                    text: error instanceof Error ? error.message : 'An error occurred during sign-up.',
+                    text: error.response?.data?.message || 'An error occurred during sign-up.',
                     confirmButtonText: 'Try Again',
                 });
             });
@@ -133,7 +133,7 @@ export default function SignUp() {
             <form className="form p-4" onSubmit={handleSubmit}>
                 <p className="form-title mb-0">Create Account</p>
                 <p className='text-center'>Sign up with us</p>
-                
+
                 {/* Username input */}
                 <div className="input-container">
                     <input
@@ -142,11 +142,11 @@ export default function SignUp() {
                         placeholder="Enter username"
                         value={username}
                         onChange={handleInputChange}
-                        required
+                        data-testid="username-input"
                     />
-                    {errors.username && <div style={{ color: 'red' }}>{errors.username}</div>}
+                    {errors.username && <div id='username-error' data-testid="username-error" style={{ color: 'red' }}>{errors.username}</div>}
                 </div>
-                
+
                 {/* Email input */}
                 <div className="input-container">
                     <input
@@ -155,11 +155,11 @@ export default function SignUp() {
                         placeholder="Enter email"
                         value={email}
                         onChange={handleInputChange}
-                        required
+                        data-testid="email-input"
                     />
-                    {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+                    {errors.email && <div id='email-error' data-testid="email-error" style={{ color: 'red' }}>{errors.email}</div>}
                 </div>
-                
+
                 {/* Password input */}
                 <div className="input-container">
                     <input
@@ -168,12 +168,12 @@ export default function SignUp() {
                         placeholder="Enter password"
                         value={password}
                         onChange={handleInputChange}
-                        required
+                        data-testid="password-input"
                     />
-                    {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+                    {errors.password && <div id='password-error' data-testid="password-error" style={{ color: 'red' }}>{errors.password}</div>}
                 </div>
-                
-                <button type="submit" className="submit">
+
+                <button type="submit" className="submit" data-testid="submit-button">
                     Sign up
                 </button>
                 <p className="signup-link">
@@ -181,9 +181,6 @@ export default function SignUp() {
                     <Link href="/users/sign-in"> Sign in</Link>
                 </p>
             </form>
-            {/* <div className='border'>
-                <img className='img-content' src='https://www.nicepng.com/png/detail/635-6350140_female-computer-user-user-computer.png' alt='no image found..'/>
-            </div> */}
         </div>
     );
 }
