@@ -103,19 +103,19 @@ export default function SignUp() {
             .then(response => {
                 const user = response.data.user;
                 localStorage.setItem("user", JSON.stringify(user));
+                
+                                // Clear form fields
+                                setUsername('');
+                                setEmail('');
+                                setPassword('');
 
                 // Display success alert
                 Swal.fire({
                     icon: 'success',
-                    title: response.data.message === "User already exists" ? 'Oops! User already exists' : 'Sign Up Successful',
+                    title: response.data.message === "User already exists" ? 'Oops! User already exists' : 'Sign Up Successfully',
                     text: response.data.message === "User already exists" ? 'Sign up with a different email' : 'Your account has been created successfully!',
                     confirmButtonText: 'OK',
                 });
-
-                // Clear form fields
-                setUsername('');
-                setEmail('');
-                setPassword('');
             })
             .catch(error => {
                 // Display error alert

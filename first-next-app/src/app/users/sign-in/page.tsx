@@ -115,9 +115,9 @@ export default function SignIn() {
                         value={email}
                         onChange={handleInputChange}
                         aria-label="Email"
-                        
+                        data-testid="email-input"
                     />
-                    {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+                    {errors.email && <div data-testid="email-error" style={{ color: 'red' }}>{errors.email}</div>}
                 </div>
 
                 {/* Password input */}
@@ -129,9 +129,9 @@ export default function SignIn() {
                         value={password}
                         onChange={handleInputChange}
                         aria-label="Password"
-                        
+                        data-testid="password-input"
                     />
-                    {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+                    {errors.password && <div data-testid="password-error" style={{ color: 'red' }}>{errors.password}</div>}
                 </div>
 
                 <button type="submit" className="submit" data-testid="submit-button">

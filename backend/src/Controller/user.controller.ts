@@ -16,7 +16,7 @@ export const SignUp = async (req: Request, res: Response, next: NextFunction) =>
         // const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY!, { expiresIn: '7d' });
         return res.status(201).json({ message: "User created successfully", user });
     } catch (err) {
-        // console.error(err);
+        console.error(err),"=======================";
         return res.status(500).json({ message: "Error creating user" });
     }
 };
