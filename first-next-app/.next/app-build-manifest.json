@@ -24,11 +24,16 @@
       "static/css/app/page.css",
       "static/chunks/app/page.js"
     ],
-    "/dashboard/page": [
+    "/order/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/dashboard/page.css",
-      "static/chunks/app/dashboard/page.js"
+      "static/css/app/order/page.css",
+      "static/chunks/app/order/page.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

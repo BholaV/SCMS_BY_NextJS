@@ -5,8 +5,9 @@ import Swal from 'sweetalert2';
 import '../page.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { NextResponse } from 'next/server';
+import { setCookie } from "cookies-next";  
 // import 'bootstrap/dist/css/bootstrap.min.css';
-
 export default function SignIn() {
     const router = useRouter();
     // State hooks for form fields, errors, and submission status
@@ -73,8 +74,9 @@ export default function SignIn() {
         }else
 
         axios.post(`${process.env.NEXT_PUBLIC_USER_SIGN_IN}`, {email,password})
-            .then(response => {
-                const user = response.data.user;
+            .then(result => {
+                const user = result.data.user;
+                const userId = result.data.user._id;
                 localStorage.setItem("user",JSON.stringify(user));
                 // Display success alert
                 Swal.fire({
@@ -83,10 +85,11 @@ export default function SignIn() {
                     text: 'Yeah🤩 ! Welcome back',
                     confirmButtonText: 'OK',
                 });
-                router.replace("/dashboard")
-                // Clear form fields
                 setEmail('');
                 setPassword('');
+                setCookie("loggedIn","true")
+                router.push("/")
+                // Clear form fields
             })
             .catch(error => {
                 console.error('Error:', error.response.data.error);

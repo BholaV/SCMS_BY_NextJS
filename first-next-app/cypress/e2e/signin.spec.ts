@@ -55,7 +55,16 @@ describe("Sign In Form", () => {
     cy.get('input[name="password"]').should("have.value", "");
 
     // Verify navigation to dashboard
-    cy.url().should("include", "/dashboard");
+    cy.url().should("include", "/");
+  });
+
+  
+  it("should navigate to sign-up page when link is clicked", () => {
+    // Click the sign-up link
+    cy.get('a[href="/users/sign-up"]').click();
+    
+    // Verify navigation to sign-up page
+    cy.url().should("include", "/users/sign-up");
   });
 
   it("should display error alert Unathorized User", () => {
@@ -65,13 +74,5 @@ describe("Sign In Form", () => {
 
     cy.get(".swal2-popup").should("contain.text", "Unauthorized user");
     cy.get(".swal2-confirm").click();
-  });
-
-  it("should navigate to sign-up page when link is clicked", () => {
-    // Click the sign-up link
-    cy.get('a[href="/users/sign-up"]').click();
-
-    // Verify navigation to sign-up page
-    cy.url().should("include", "/users/sign-up");
   });
 });

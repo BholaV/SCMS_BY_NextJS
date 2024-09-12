@@ -20,6 +20,7 @@ import ProductStockAlert from '../product/product-alert/page';
 import { useRouter  } from 'next/navigation';
 import MyOrder from '../order/page';
 import Swal from 'sweetalert2';
+import { deleteCookie } from 'cookies-next';
 const NAVIGATION: Navigation = [
   {
     segment: 'dashboard',
@@ -88,6 +89,7 @@ function DemoPageContent({ pathname }: { pathname: string }) {
     }).then(result=>
       {
       if(result.isConfirmed){
+        deleteCookie("loggedIn")
         Swal.fire('Logout successfully', 'Login again.', 'success');
         localStorage.clear(); // Clear local storage on logout
         router.push("/users/sign-in"); // Navigate to the sign-in page
